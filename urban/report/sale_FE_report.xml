@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="sale.action_report_sale_FE"
+            string="Fiche d'éxecution"
+            model="sale.order"
+            report_type="qweb-pdf"
+            file="urban.report_sale_FE"
+            name="urban.report_sale_FE"
+        />
+
+    </data>
+</odoo>

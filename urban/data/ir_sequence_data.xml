@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for urban.demandedachat -->
+        <record id="seq_urban_demandeachat" model="ir.sequence">
+            <field name="name">Sequence Demande d'achat</field>
+            <field name="code">urban.demandedachat</field>
+            <field name="prefix">Demande d'achat No. </field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

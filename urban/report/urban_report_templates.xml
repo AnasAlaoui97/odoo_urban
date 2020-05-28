@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_urban_demandedachat_document">
+    <t t-call="web.external_layout">
+        <t t-set="doc" t-value="doc.with_context(lang=doc.user_id.lang)" />
+        <div class="page">
+            <div class="oe_structure"/>
+            <h2 class="text-center"><span t-field="doc.name"/></h2>
+            <p class="text-center">__________________________________________________________</p>
+            <table class="table table-sm">
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Service demandeur:</strong>
+                            <p class="m-0" t-field="doc.service_id"/>
+                        </td>
+                        <td t-if="doc.stock == True" class="text-center">
+                            <strong>Destination:</strong>
+                            <p>Stock</p>
+                        </td>
+                        <td t-if="doc.user == True" class="text-center">
+                            <strong>Destination:</strong>
+                            <p>Utilisateur</p>
+                        </td>
+                        <td t-if="doc.stock == False and doc.user == False" class="text-center">
+                            <strong>Destination:</strong>
+                            <p> _____ </p>
+                        </td>
+                        <td>
+                            <strong>Date:</strong>
+                            <p class="m-0" t-field="doc.date"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Lieu de livraison:</strong>
+                            <p class="m-0" t-field="doc.livraison_id"/>
+                        </td>
+                        <td>          </td>
+                        <td>
+                            <strong>Nom du receptionnaire:</strong>
+                            <p class="m-0" t-field="doc.receptionist"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th name="th_product" class="text-center">Désignation et références techniques des Articles</th>
+                        <th name="th_unit" class="text-center">Unité</th>
+                        <th name="th_qty" class="text-center">Quantité Demandée</th>
+                        <th name="th_date_souhaitee" class="text-center">Date de livraison souhaitée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="doc.demandedachat_line_ids" t-as="line">
+                        <tr>
+                                <td name="td_product">
+                                    <span t-field="line.product_id"/>
+                                </td>
+                                <td name="td_unit" class="text-right">
+                                    <span t-field="line.unit_id"/>
+                                </td>
+                                <td name="td_qty" class="text-right">
+                                    <span t-field="line.qty"/>
+                                </td>
+                                <td name="td_date_souhaitee" class="text-right">
+                                    <span t-field="line.date_souhaitee"/>
+                                </td>
+                        </tr>
+                    </t>
+
+                </tbody>
+            </table>
+
+            <div>
+                <strong>Justification du besoin d'achat:</strong>
+                <p t-field="doc.justification" />
+            </div>
+
+            <div >
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                                <td><strong>Demandeur:</strong></td>
+                                <td><strong>Visa Achats:</strong></td>
+                                <td><strong>Accord direction:</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody class="demandedachat_tbody">
+                        <tr>
+                            <td>                        </td>
+                            <td>                        </td>
+                            <td>                        </td>
+                        </tr>
+                        <tr>
+                            <td>                        </td>
+                            <td>                        </td>
+                            <td>                        </td>
+                        </tr>
+                        <tr>
+                            <td>                        </td>
+                            <td>                        </td>
+                            <td>                        </td>
+                        </tr>
+                        <tr>
+                            <td>                        </td>
+                            <td>                        </td>
+                            <td>                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="report_urban_demandedachat">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="urban.report_urban_demandedachat_document"/>
+        </t>
+    </t>
+</template>
+
+
+
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="purchase.action_report_urban_demandedachat"
+            string="Demande d'achat "
+            model="urban.demandedachat"
+            report_type="qweb-pdf"
+            file="urban.report_urban_demandedachat"
+            name="urban.report_urban_demandedachat"
+            print_report_name="'Demande dachat - %s' % (object.name)"
+        />
+    </data>
+</odoo>
