@@ -8,9 +8,11 @@
     'category': 'Extra tools',
     'summary': 'Differents nouveaux fontionalités pour URBAN Electronics',
     'description': """ Module for urban""",
+    'author': 'AnasAlaoui',
     'website': '',
     'depends': ['purchase','sale'],
     'data': [
+        'security/security.xml',
         'views/purchase_urban_views.xml',
         'data/ir_sequence_data.xml',
         'report/urban_report_templates.xml',
@@ -21,6 +23,6 @@
     ],
     'demo': [],
     'installable': True,
-    'application': False,
+    'application': True,
     'auto_install': False,
 }

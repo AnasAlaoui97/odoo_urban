@@ -38,8 +38,8 @@
               <form string="Fiche d'execution" class="o_sale_order">
                 <header>
                     <field name="authorized_transaction_ids" invisible="1"/>
-                    <button name="action_FE" states="sale" type="object" string="Valider la fiche d'exécution"/>
-                    <button name="action_print" states="doneFE" type="object" string="Imprimer"/>
+                    <button name="action_FE" states="sale" type="object" string="Valider la fiche d'exécution" class="oe_highlight"/>
+                    <button name="action_print" states="doneFE" type="object" string="Imprimer" class="oe_highlight"/>
                     <button name="action_annulerFE" states="doneFE" type="object" string="Annuler"/>
                     <field name="state" widget="statusbar" statusbar_visible="doneFE"/>
                 </header>

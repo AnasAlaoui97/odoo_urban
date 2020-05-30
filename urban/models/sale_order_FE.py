@@ -25,7 +25,15 @@ class SaleOrder(models.Model):
     interloc = user_id = fields.Many2one('res.users', string='Interlocuteur', index=True, tracking=2, default=lambda self: self.env.user)
     objet = fields.Char(string='Objet')
     delai_liv = fields.Datetime(string='Délai de livraison')
-    observ = fields.Text(string='Observations')    
+    observ = fields.Text(string='Observations')
+    state = fields.Selection([
+        ('draft', 'Quotation'),
+        ('sent', 'Quotation Sent'),
+        ('sale', 'Sales Order'),
+        ('done', 'Locked'),
+        ('doneFE', "Fiche d'exécution"),
+        ('cancel', 'Cancelled')
+        ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
     element_asso = fields.Selection([
         ('normal', 'Maquette'),
         ('phantom', 'CSP'),
@@ -38,6 +46,7 @@ class SaleOrder(models.Model):
         self.write({'state': 'doneFE'})
     def action_annulerFE(self):
         self.write({'state': 'sale'})
+
  
 
 class SaleOrderLine(models.Model):
@@ -47,3 +56,11 @@ class SaleOrderLine(models.Model):
     decor = fields.Char(string='Décor')
     dimensions = fields.Char(string='Dimensions')
     mat_epai = fields.Char(string='Matière/epaisseur')
+    state = fields.Selection([
+        ('draft', 'Quotation'),
+        ('sent', 'Quotation Sent'),
+        ('sale', 'Sales Order'),
+        ('done', 'Done'),
+        ('doneFE', "Fiche d'exécution"),
+        ('cancel', 'Cancelled')
+    ], related='order_id.state', string='Order Status', readonly=True, copy=False, store=True, default='draft')

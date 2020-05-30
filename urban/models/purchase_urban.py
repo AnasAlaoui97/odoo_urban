@@ -41,40 +41,31 @@ class Demandedachat(models.Model):
     name = fields.Char(string='Réf#', readonly=True, default="Nouvelle")
 
     service_id = fields.Many2one('urban.service', string='Service Demandeur', index=True, required=True,
-                                 states={'done': [('readonly', True)]})
+                                 readonly=True, states={'draft': [('readonly', False)]})
     livraison_id = fields.Many2one('urban.lieu_livraison', string='Lieu de livraison', required=True,
-                                   states={'done': [('readonly', True)]})
+                                   readonly=True, states={'draft': [('readonly', False)]})
 
-    stock = fields.Boolean(string="Stock")
-    user = fields.Boolean(string="Utilisateur")
+    stock = fields.Boolean(string="Stock", readonly=True, states={'draft': [('readonly', False)]})
+    user = fields.Boolean(string="Utilisateur", readonly=True, states={'draft': [('readonly', False)]})
 
     user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
 
     date = fields.Date(string='Date', readonly=True, default=fields.Datetime.now)
-    receptionist = fields.Char(string='Nom de receptionnaire')
+    receptionist = fields.Char(string='Nom de receptionnaire', readonly=True, states={'draft': [('readonly', False)]})
 
-    justification = fields.Text(string="Justification du besoin d'achat", states={'done': [('readonly', True)]})
+    justification = fields.Text(string="Justification du besoin d'achat", readonly=True, states={'draft': [('readonly', False)]})
 
     demandedachat_line_ids = fields.One2many('urban.line.demandedachat', 'demandedachat_id',
-                                             string="Demande d'achat lines", auto_join=True,
-                                             states={'done': [('readonly', True)]})
+                                             string="Demande d'achat lines", auto_join=True, readonly=True,
+                                             states={'draft': [('readonly', False)]})
 
     state = fields.Selection([
         ('draft', 'Brouillon'),
-        ('inprogress', 'En cours'),
-        ('done', 'Validé'),
-        ('cancel', 'Annulé'),
+        ('inprogress', "Demande envoyée"),
+        ('done', 'Demande validée'),
+        ('cancel', 'Demande refusée'),
         ], string='Etat', readonly=True, default='draft')
 
-    priority = fields.Selection([
-        ('0', 'Low'),
-        ('1', 'Medium'),
-        ('2', 'High'),
-        ('3', 'Very High'),
-        ('4', 'Very High 2'),
-        ('5', 'Very High 3'),
-        ], string='Priority', index=True,
-        states={'done': [('readonly', True)]}, default='0')
 
     def action_open(self):
         a = self.env['ir.sequence'].next_by_code('urban.demandedachat') or _('0001')
@@ -87,7 +78,10 @@ class Demandedachat(models.Model):
         return self.env.ref('purchase.action_report_urban_demandedachat').report_action(self)
 
     def action_retour(self):
-        self.write({'state': 'inprogress'})
+        self.write({'state': 'draft'})
+
+    def action_cancel(self):
+        self.write({'state': 'cancel'})
 
 # line bon d'achat
 class Linedemandedachat(models.Model):

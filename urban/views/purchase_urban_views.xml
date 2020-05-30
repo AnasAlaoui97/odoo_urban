@@ -125,11 +125,11 @@
             <field name="arch" type="xml">
                 <tree string="Demande d'achat" >
                     <field name="name"/>
+                    <field name="state"/>
+                    <field name="date"/>
                     <field name="service_id"/>
                     <field name="livraison_id"/>
-                    <field name="date"/>
                     <field name="receptionist"/>
-                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -141,10 +141,11 @@
             <field name="arch" type="xml">
               <form string="Gestion des demandes d'achat" class="o_sale_order">
                 <header>
-                    <button name="action_open" string="Ouvrir" type="object" states="draft"/>
-                    <button name="action_done" string="Valider" type="object" states="inprogress"/>
-                    <button name="action_print" string="Imprimer" type="object" states="done"/>
-                    <button name="action_retour" string="Annuler la validation" type="object" states="done"/>
+                    <button name="action_open" string="Envoyer la demande" type="object" states="draft" class="oe_highlight"/>
+                    <button name="action_done" string="Valider la demande" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_admin,urban.group_urban_manager"/>
+                    <button name="action_print" string="Imprimer" type="object" states="inprogress,done" class="oe_highlight"/>
+                    <button name="action_cancel" string="Refuser la demande" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_admin,urban.group_urban_manager"/>
+                    <button name="action_retour" string="Annuler l'envoi" type="object" states="inprogress"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="draft,inprogress,done"/>
                 </header>
@@ -166,7 +167,6 @@
                         <group>
                             <field name="date" />
                             <field name="receptionist" />
-                            <field name="priority" widget="priority"/>
                         </group>
                     </group>
                     <notebook>
