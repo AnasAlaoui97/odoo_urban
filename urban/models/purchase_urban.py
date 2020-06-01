@@ -33,7 +33,7 @@ class LieuLivraison(models.Model):
     note = fields.Text(string='Description', required=False)
 
 
-# Demande d'achat
+ # Demande d'achat
 class Demandedachat(models.Model):
     _name = "urban.demandedachat"
     _description = "Demande d'achat"
@@ -58,6 +58,7 @@ class Demandedachat(models.Model):
     demandedachat_line_ids = fields.One2many('urban.line.demandedachat', 'demandedachat_id',
                                              string="Demande d'achat lines", auto_join=True, readonly=True,
                                              states={'draft': [('readonly', False)]})
+    purchase_order_count = fields.Integer(string="Devis", compute='get_order_count_da')
 
     state = fields.Selection([
         ('draft', 'Brouillon'),
@@ -65,6 +66,7 @@ class Demandedachat(models.Model):
         ('done', 'Demande validée'),
         ('cancel', 'Demande refusée'),
         ], string='Etat', readonly=True, default='draft')
+
 
 
     def action_open(self):
@@ -83,11 +85,26 @@ class Demandedachat(models.Model):
     def action_cancel(self):
         self.write({'state': 'cancel'})
 
+    def open_purchase_da(self):
+        return {
+            'name': _('Achats'),
+            'domain': [('da_id', '=', self.id)],
+            'view_type': 'form',
+            'res_model': 'purchase.order',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'type': 'ir.actions.act_window',
+        }
+
+    def get_order_count_da(self):
+        c = self.env['purchase.order'].search_count([('da_id', '=', self.id)])
+        self.purchase_order_count = c
+
+
 # line bon d'achat
 class Linedemandedachat(models.Model):
     _name = "urban.line.demandedachat"
     _description = "Line Demande dachat"
-
 
     name = fields.Char(string='Réf#', default="/")
     demandedachat_id = fields.Many2one('urban.demandedachat', string='Demande_', required=True)
@@ -96,6 +113,12 @@ class Linedemandedachat(models.Model):
     qty = fields.Float('Quantité Demandée', digits=(4, 2))
     date_souhaitee = fields.Date(string='Date de livraison souhaitée')
 
+
+#  inherit purchase order
+class PurchaseOrder(models.Model):
+    _inherit = "purchase.order"
+
+    da_id = fields.Many2one('urban.demandedachat', string="Demande d'achat associée", domain="[('state', '=', 'done')]")
 
 
 
