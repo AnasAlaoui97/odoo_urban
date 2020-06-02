@@ -3,3 +3,5 @@
 
 from . import purchase_urban
 from . import sale_order_FE
+from . import product_codification
+
