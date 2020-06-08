@@ -9,6 +9,11 @@
     <record id="group_urban_admin" model="res.groups">
         <field name="name">Admin</field>
         <field name="category_id" ref="module_category_urban"/>
+        <field name="implied_ids" eval="[(4, ref('group_urban_directeur'))]"/>
+    </record>
+    <record id="group_urban_directeur" model="res.groups">
+        <field name="name">Directeur</field>
+        <field name="category_id" ref="module_category_urban"/>
         <field name="implied_ids" eval="[(4, ref('group_urban_manager'))]"/>
     </record>
     <record id="group_urban_manager" model="res.groups">

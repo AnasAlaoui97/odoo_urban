@@ -7,10 +7,10 @@
         <div class="page">
             <div class="oe_structure"/>
             <h2 class="mt16">
-                <strong>Fiche d'exécution - </strong>
+                <strong>Fiche d'exécution _ </strong>
                 <span t-field="doc.name"/>
             </h2>
-            <table class="table table-sm ">
+            <table class="table">
                <tbody class="sale_tbody">
                     <tr>
                          <td name="date_order"> <strong>Date commande:</strong> <p class="m-0" t-field="doc.date_order" /></td>     
@@ -31,8 +31,7 @@
                     <strong>Eléments associés:</strong>
                     <span t-field="doc.element_asso"/>
                 </div>
-            </div>    
-            <!-- Is there a discount on at least one line? -->
+            </div>
 
             <table class="table">
                 <thead class= "thead-light">

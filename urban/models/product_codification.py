@@ -22,7 +22,7 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    prod_code_V = fields.Char('Code article', compute='_compute_product_code_product', index=True)
+    default_code = fields.Char(string='Code_Article', compute='_compute_product_code_product', inverse='_set_product_code_product', index=True)
 
     @api.depends('product_tmpl_id.prod_code_P','product_template_attribute_value_ids')
     def _compute_product_code_product(self):
@@ -32,7 +32,11 @@ class ProductProduct(models.Model):
             s.append(product.product_tmpl_id.prod_code_P or '')
             s.append(p or '')
             # s += '%s_%s' % (str(product.code_values) or '', str(Prod.prod_code_P) or '')
-            product.prod_code_V = '_'.join(s)
+            product.default_code = '_'.join(s)
+
+    def _set_product_code_product(self):
+        for product in self:
+            product.write({'prod_code_P': product.default_code})
 
 
 class ProductTemplateAttributeValue(models.Model):

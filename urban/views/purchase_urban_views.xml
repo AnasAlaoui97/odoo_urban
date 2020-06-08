@@ -124,7 +124,7 @@
             <field name="priority">2</field>
             <field name="arch" type="xml">
                 <tree string="Demande d'achat" >
-                    <field name="name"/>
+                    <field name="name" string="Référence"/>
                     <field name="state"/>
                     <field name="date"/>
                     <field name="service_id"/>
@@ -141,9 +141,9 @@
               <form string="Gestion des demandes d'achat" class="o_sale_order">
                 <header>
                     <button name="action_open" string="Envoyer la demande" type="object" states="draft" class="oe_highlight"/>
-                    <button name="action_done" string="Valider la demande" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_admin,urban.group_urban_manager"/>
+                    <button name="action_done" string="Valider la demande" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_manager"/>
                     <button name="action_print" string="Imprimer" type="object" states="inprogress,done" class="oe_highlight"/>
-                    <button name="action_cancel" string="Refuser la demande" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_admin,urban.group_urban_manager"/>
+                    <button name="action_cancel" string="Refuser la demande" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_manager"/>
                     <button name="action_retour" string="Annuler l'envoi" type="object" states="inprogress"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="draft,inprogress,done"/>

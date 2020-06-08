@@ -10,7 +10,7 @@
             <field name="priority" eval="25"/>
             <field name="arch" type="xml">
                 <field name="default_code" position="replace">
-                    <field name="prod_code_V"  string = "Code_Article"/>
+                    <field name="default_code"  string = "Code_Article"/>
                 </field>
             </field>
         </record>
@@ -22,7 +22,7 @@
             <field name="priority" eval="25"/>
             <field name="arch" type="xml">
                 <field name="default_code" position="replace">
-                    <field name="prod_code_V" string = "Code_Article"/>
+                    <field name="default_code" string = "Code_Article"/>
                 </field>
             </field>
         </record>
