@@ -9,17 +9,22 @@
     <record id="group_urban_admin" model="res.groups">
         <field name="name">Admin</field>
         <field name="category_id" ref="module_category_urban"/>
-        <field name="implied_ids" eval="[(4, ref('group_urban_directeur'))]"/>
     </record>
     <record id="group_urban_directeur" model="res.groups">
         <field name="name">Directeur</field>
         <field name="category_id" ref="module_category_urban"/>
-        <field name="implied_ids" eval="[(4, ref('group_urban_manager'))]"/>
     </record>
-    <record id="group_urban_manager" model="res.groups">
-        <field name="name">Manager</field>
+    <record id="group_urban_prod" model="res.groups">
+        <field name="name">Responsable production</field>
         <field name="category_id" ref="module_category_urban"/>
-        <field name="implied_ids" eval="[(4, ref('group_urban_user'))]"/>
+    </record>
+    <record id="group_urban_achats" model="res.groups">
+        <field name="name">Responsable achats</field>
+        <field name="category_id" ref="module_category_urban"/>
+    </record>
+    <record id="group_urban_ventes" model="res.groups">
+        <field name="name">Responsable ventes</field>
+        <field name="category_id" ref="module_category_urban"/>
     </record>
     <record id="group_urban_user" model="res.groups">
         <field name="name">Utilisateur</field>

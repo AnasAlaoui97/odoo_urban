@@ -11,5 +11,14 @@
             <field name="company_id" eval="False"/>
         </record>
 
+        <!-- Sequences for urban.demandedachat -->
+        <record id="seq_urban_fiche" model="ir.sequence">
+            <field name="name">Sequence Fiche d'execution</field>
+            <field name="code">urban.fiche</field>
+            <field name="prefix">Fiche d'exécution No. </field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
     </data>
 </odoo>

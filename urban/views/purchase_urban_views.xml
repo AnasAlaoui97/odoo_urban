@@ -141,21 +141,22 @@
               <form string="Gestion des demandes d'achat" class="o_sale_order">
                 <header>
                     <button name="action_open" string="Envoyer la demande" type="object" states="draft" class="oe_highlight"/>
-                    <button name="action_done" string="Valider la demande" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_manager"/>
-                    <button name="action_print" string="Imprimer" type="object" states="inprogress,done" class="oe_highlight"/>
-                    <button name="action_cancel" string="Refuser la demande" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_manager"/>
-                    <button name="action_retour" string="Annuler l'envoi" type="object" states="inprogress"/>
+                    <button name="action_inprogress" string="Visa Achats" type="object" states="sent" class="oe_highlight" groups="urban.group_urban_achats"/>
+                    <button name="action_done" string="Visa Directeur" type="object" states="sent,inprogress" class="oe_highlight" groups="urban.group_urban_directeur"/>
+                    <button name="action_print" string="Imprimer" type="object" states="sent,inprogress,done" class="oe_highlight"/>
+                    <button name="action_cancel" string="Refuser la demande" type="object" states="sent,inprogress" class="oe_highlight" groups="urban.group_urban_achats"/>
+<!--                    <button name="action_retour" string="Annuler l'envoi" type="object" states="sent"/>-->
 
-                    <field name="state" widget="statusbar" statusbar_visible="draft,inprogress,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,inprogress,done"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button type="object" class="oe_stat_button" name="open_purchase_da"
-                                icon="fa-paperclip">
+                        <button type="object" class="oe_stat_button" name="open_purchase_da" icon="fa-paperclip">
                             <field name="purchase_order_count" string='Commandes associées' widget="statinfo"/>
                         </button>
                     </div>
                     <div class="oe_title">
+                        <h5>Demande d'achat</h5>
                         <h1>
                             <field name="name" readonly="1"/>
                         </h1>
@@ -251,7 +252,7 @@
                      <field name="da_id" options="{'no_create': True}"/>
                  </xpath>
             </field>
-        </record>
+    </record>
 
 
 </odoo>

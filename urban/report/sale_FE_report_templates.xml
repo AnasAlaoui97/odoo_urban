@@ -2,23 +2,22 @@
 <odoo>
 <template id="report_sale_FE_document">
     <t t-call="web.external_layout">
-        <t t-set="doc" t-value="doc.with_context(lang=doc.user_id.lang)" />
-        
+        <t t-set="doc" t-value="doc.with_context(lang=doc.interloc.lang)" />
         <div class="page">
             <div class="oe_structure"/>
-            <h2 class="mt16">
+            <h2 class="text-center">
                 <strong>Fiche d'exécution _ </strong>
                 <span t-field="doc.name"/>
             </h2>
             <table class="table">
-               <tbody class="sale_tbody">
+               <tbody class="FE_tbody">
                     <tr>
-                         <td name="date_order"> <strong>Date commande:</strong> <p class="m-0" t-field="doc.date_order" /></td>     
-                         <td name="Client"> <strong>Client:</strong> <p t-field="doc.partner_id" /></td>          
-                         <td name="Objet"> <strong> Objet:</strong> <p t-field="doc.objet"/> </td>
+                         <td name="Date commande"> <strong>Date commande:</strong> <p t-field="doc.date_commande"/></td>
+                         <td name="Client"> <strong>Client:</strong> <p t-field="doc.client"/></td>
+                         <td name="Objet"> <strong>Objet:</strong> <p t-field="doc.objet"/> </td>
                     </tr>
                     <tr> 
-                         <td name="Name"> <strong>Commande N°:</strong> <p t-field="doc.name" /></td>  
+                         <td name="Name"> <strong>Commande N°:</strong> <p t-field="doc.commande_id" /></td>
                          <td name="Interlocuteur"> <strong>Interlocuteur:</strong> <p t-field="doc.interloc" /></td>             
                          <td name="Délai de livraison"> <strong> Délai de livraison:</strong> <p t-field="doc.delai_liv" /> </td>
                     </tr>
@@ -36,24 +35,28 @@
             <table class="table">
                 <thead class= "thead-light">
                     <tr>
-                        <th name="th_code" class="text-center">Code</th>
+                        <th name="th_prix" class="text-center">Num Prix</th>
+                        <th name="th_product_code_id" class="text-center">Code Article</th>
+                        <th name="th_product_code" class="text-center">Désignation (Article)</th>
                         <th name="th_decor" class="text-center">Décor</th>
-                        <th name="th_designa" class="text-center">Désignation et spécifications techniques </th>
                         <th name="th_dims" class="text-center">Dimensions</th>
                         <th name="th_matiere" class="text-center">Matière/Epaisseur </th>
                         <th name="th_qty" class="text-center">Quantité </th>
                     </tr>
                 </thead>
-                <tbody class="sale_tbody">
-                    <tr t-foreach="doc.order_line" t-as="line">
-                        <td name="td_code">
-                            <span t-field="line.product_id.default_code"/>
+                <tbody class="FE_tbody">
+                    <tr t-foreach="doc.fiche_line_ids" t-as="line">
+                        <td name="td_prix">
+                            <span t-field="line.product_id"/>
+                        </td>
+                        <td name="td_product_code_id">
+                            <span t-field="line.product_code.default_code"/>
+                        </td>
+                        <td name="td_product_code" class="text-center">
+                            <span t-field="line.product_code"/>
                         </td>
                         <td name="td_decor">
                             <span t-field="line.decor"/>
-                        </td>
-                        <td name="td_designa" class="text-center">
-                            <span t-field="line.product_id"/>
                         </td>
                         <td name="td_dims" class="text-center ">
                             <span t-field="line.dimensions"  />
@@ -62,13 +65,13 @@
                             <span t-field="line.mat_epai"  />
                         </td>
                         <td name="td_qty" class="text-center">
-                            <span t-field="line.product_uom_qty"/>
+                            <span t-field="line.qty"/>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <table class="table">
-               <tbody class="sale_tbody">
+               <tbody class="FE_tbody">
                     <tr>
                          <td name="Observations"> <strong>Observations:</strong> <span t-field="doc.observ" /></td>     
                     </tr>
@@ -83,7 +86,7 @@
                         <th name="xxxx" class="text-center">VISA CONTROLE QUALITE </th>
                     </tr>
                 </thead>
-               <tbody class="sale_tbody">
+               <tbody class="FE_tbody">
                     <tr class="text-left" >
                          <td> Etablie le: </td>  
                          <td>     </td>
@@ -91,16 +94,16 @@
                           <td>   Reçu le:   </td> 
                     </tr>
                     <tr>
-                         <td>    </td>  
-                         <td>    </td>
-                         <td>    </td> 
-                          <td>    </td>  
+                        <td>    </td>
+                        <td>    </td>
+                        <td>    </td>
+                        <td>    </td>
                     </tr>
-                     <tr>
-                         <td>    </td>  
-                         <td>    </td>
-                          <td>    </td>
-                         <td>    </td>   
+                    <tr>
+                        <td>    </td>
+                        <td>    </td>
+                        <td>    </td>
+                        <td>    </td>
                     </tr>
                </tbody>         
             </table>
@@ -117,7 +120,7 @@
 <template id="report_sale_FE">
     <t t-call="web.html_container">
         <t t-foreach="docs" t-as="doc">
-            <t t-call="urban.report_sale_FE_document" t-lang="doc.user_id.lang"/>
+            <t t-call="urban.report_sale_FE_document"/>
         </t>
     </t>
 </template>

@@ -2,9 +2,9 @@
 <odoo>
     <data>
         <report 
-            id="sale.action_report_sale_FE"
+            id="action_report_sale_FE"
             string="Fiche d'éxecution"
-            model="sale.order"
+            model="urban.fiche"
             report_type="qweb-pdf"
             file="urban.report_sale_FE"
             name="urban.report_sale_FE"

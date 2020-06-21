@@ -76,7 +76,8 @@ class Demandedachat(models.Model):
 
     state = fields.Selection([
         ('draft', 'Brouillon'),
-        ('inprogress', "Demande envoyée"),
+        ('sent', "Demande envoyée"),
+        ('inprogress', 'En cours de traitement'),
         ('done', 'Demande validée'),
         ('cancel', 'Demande refusée'),
         ], string='Etat', readonly=True, default='draft')
@@ -85,7 +86,10 @@ class Demandedachat(models.Model):
 
     def action_open(self):
         a = self.env['ir.sequence'].next_by_code('urban.demandedachat') or _('0001')
-        self.write({'state': 'inprogress', 'name': a})
+        self.write({'state': 'sent', 'name': a})
+
+    def action_inprogress(self):
+        self.write({'state': 'inprogress'})
 
     def action_done(self):
         self.write({'state': 'done'})

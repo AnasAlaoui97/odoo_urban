@@ -5,7 +5,10 @@
         <t t-set="doc" t-value="doc.with_context(lang=doc.user_id.lang)" />
         <div class="page">
             <div class="oe_structure"/>
-            <h2 class="text-center"><span t-field="doc.name"/></h2>
+            <h2 class="text-center">
+                <strong>Fiche d'exécution _ </strong>
+                <span t-field="doc.name"/>
+            </h2>
             <p class="text-center">__________________________________________________________</p>
             <table class="table table-sm">
                 <tbody>

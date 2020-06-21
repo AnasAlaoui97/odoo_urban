@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<!--Fiche d'execution-->
+
+        <record id="view_fiche_tree" model="ir.ui.view">
+            <field name="name">urban.fiche.tree</field>
+            <field name="model">urban.fiche</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Fiche d'exécution" >
+                    <field name="name" string="Référence"/>
+                    <field name="state"/>
+                    <field name="commande_id"/>
+                    <field name="interloc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_fiche_form" model="ir.ui.view">
+            <field name="name">urban.fiche.form</field>
+            <field name="model">urban.fiche</field>
+            <field name="arch" type="xml">
+              <form string="Gestion des fiches d'exécution" class="o_sale_order">
+                <header>
+                    <button name="action_open" string="Valider la fiche d'exécution" type="object" states="draft" class="oe_highlight"/>
+                    <button name="action_ok" string="Marquer comme traitée" type="object" states="ok" class="oe_highlight" groups="urban.group_urban_prod"/>
+                    <button name="action_print" string="Imprimer" type="object" states="ok,done" class="oe_highlight"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,ok,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" name="open_fe" icon="fa-paperclip" groups="urban.group_urban_prod">
+                            <field name="mo_count" string='Ordre de fabrication associées' widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h5>Fiche d'exécution</h5>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_commande"/>
+                            <field name="commande_id"/>
+                        </group>
+                        <group>
+                            <field name="client" />
+                            <field name="interloc" />
+                            <field name="coordonnees" />
+                        </group>
+                        <group>
+                            <field name="objet" />
+                            <field name="delai_liv" />
+                            <field name="element_asso" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lignes">
+
+                            <field
+                                name="fiche_line_ids"
+                                mode="tree"
+                            >
+
+                                <tree
+                                    string="Lignes de la fiche d'execution"
+                                    editable="bottom"
+                                >
+                                    <field name="n_prix"/>
+                                    <field name="product_code"/>
+                                    <field name="decor"/>
+                                    <field name="dimensions"/>
+                                    <field name="mat_epai"/>
+                                    <field name="qty"/>
+                                </tree>
+
+                            </field>
+
+
+                        </page>
+
+                    </notebook>
+                    <group >
+
+                        <group >
+                            <field name="observ"/>
+                        </group>
+                        <group >
+                        </group>
+
+                    </group>
+                </sheet>
+              </form>
+            </field>
+        </record>
+
+        <record id="action_fiche" model="ir.actions.act_window">
+            <field name="name">Fiche d'exécution</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">urban.fiche</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Creer une nouvelle fiche d'exécution.
+                </p><p>
+                    Gestion des fiches d'exécution.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_fiche"
+            name="Fiches d'exécution"
+            action="action_fiche"
+            parent="sale.sale_order_menu"
+            sequence="5"/>
+
+
+<!--    menu fiche d'exec dans fabrication  -->
+
+            <record id="action_fiche_mo" model="ir.actions.act_window">
+            <field name="name">Fiche d'exécution</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">urban.fiche</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('state', '!=', 'draft')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune fiche d'exécution pour le moment.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_fiche_mo"
+            name="Fiches d'exécution"
+            action="action_fiche_mo"
+            parent="mrp.menu_mrp_manufacturing"
+            sequence="2"/>
+
+
+<!--  inherit mrp prod form view  -->
+
+        <record id="mrp_production_form_view_fe" model="ir.ui.view">
+                <field name="name">mrp.production.view.fe</field>
+                <field name="model">mrp.production</field>
+                <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+                <field name="priority" eval="17"/>
+                <field name="arch" type="xml">
+                     <xpath expr="//field[@name='bom_id']" position="after">
+                         <field name="fe_id" options="{'no_create': True}"/>
+                     </xpath>
+                </field>
+        </record>
+
+<!--  inherit mrp prod form view  -->
+
+        <record id="sale_order_view_fe" model="ir.ui.view">
+                <field name="name">sale.order.form.view.fe</field>
+                <field name="model">sale.order</field>
+                <field name="inherit_id" ref="sale.view_order_form" />
+                <field name="priority" eval="17"/>
+                <field name="arch" type="xml">
+                     <xpath expr="//button[@name='action_view_invoice']" position="after">
+                         <button type="object" class="oe_stat_button" name="open_so_fe" icon="fa-paperclip">
+                            <field name="fe_count" string="Fiches d'exécution associées" widget="statinfo"/>
+                        </button>
+                     </xpath>
+                </field>
+        </record>
+
+
+
+</odoo>
