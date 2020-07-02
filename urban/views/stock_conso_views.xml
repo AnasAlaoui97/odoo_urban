@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   
+     <record id="view_move_tree_edits" model="ir.ui.view">
+            <field name="name">stock.move.tree.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_uom_qty']" position="after">
+                    <field name="quantity_done" sum ='Quantité totale'  string="Quantité traitée" />
+                </xpath>
+                <xpath expr="//field[@name='quantity_done']" position="after">
+                    <field name="qty_sale" sum ='Total vendu'  string="Quantité vendue" />
+                </xpath>
+                   <xpath expr="//field[@name='qty_sale']" position="after">
+                    <field name="qty_prch" sum = 'Total achetée' string="Quantité achetée" />
+                </xpath>
+                  <xpath expr="//field[@name='qty_prch']" position="after">
+                    <field name="qty_imput" sum = "somme imputation"   string="Imputation" />
+                </xpath> 
+                <xpath expr="//field[@name='qty_imput']" position="after">
+                    <field name="qty_retour"  sum = "somme Imputation Retour" string="Imp.Retour" />
+                </xpath>
+                <xpath expr="//field[@name='qty_retour']" position="after">
+                    <field name="qty_conso_ext"  sum = "somme Quantité consommée (ext)" string="Consommation externe" />
+                </xpath>
+                <xpath expr="//field[@name='qty_conso_ext']" position="after">
+                    <field name="qty_conso_int"  sum = "somme Quantité consommée (int)" string="Consommation interne" />
+                </xpath>
+<!--                <xpath expr="//field[@name='state']" position="after">-->
+<!--                    <field name="value" sum = 'Cout Total' string=" Coût" />-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" invisible = '1' />
+                </xpath>
+                <xpath expr="//field[@name='picking_type_id']" position="replace">
+                    <field name="picking_type_id"  string="Type d'opération" />
+                </xpath>
+            </field>    
+        </record>
+
+
+  
+
+</odoo>
+ 

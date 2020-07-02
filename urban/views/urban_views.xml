@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+<!--  titre bon d'imputation form view  -->
+
+        <record id="view_picking_form_bi" model="ir.ui.view">
+                <field name="name">stock.picking.form.bi</field>
+                <field name="model">stock.picking</field>
+                <field name="inherit_id" ref="stock.view_picking_form" />
+                <field name="priority" eval="17"/>
+                <field name="arch" type="xml">
+                     <xpath expr="//field[@name='name']" position="before">
+                         <h3>Bon d'imputation</h3>
+                     </xpath>
+                </field>
+        </record>
+
+<!--    Articles views-->
+
+        <record model="ir.ui.view" id="product_template_only_form_view_2">
+            <field name="name">product.template.product.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="default_code" position="replace">
+                    <field name="default_code" string = "Code Article"/>
+                </field>
+            </field>
+        </record>
+
+
+
+<!--Tableau de bord-->
+
+        <menuitem id="menu_tableau"
+            name="Tableau de bord"
+            parent="stock.menu_stock_root"
+            sequence="3"/>
+
+<!--etat du stock-->
+
+        <record id="view_quant_tree_edits" model="ir.ui.view">
+            <field name="name">stock.quant.tree.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='quantity']" position="replace">
+                    <field name="quantity" string="Quantité totale"/>
+                </xpath>
+                <xpath expr="//field[@name='quantity']" position="after">
+                    <field name="qty_stock_mz"/>
+                </xpath>
+                <xpath expr="//field[@name='qty_stock_mz']" position="after">
+                    <field name="qty_stock_prod"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_etat_stock" model="ir.actions.act_window">
+            <field name="name">Etat du stock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_internal_loc': 1, 'search_default_transit_loc': 1, 'group_by':['product_id']}</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Etat du stock
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_etat_stock"
+        name="Etat du stock"
+        action="action_etat_stock"
+        parent="menu_tableau"
+        sequence="1"/>
+
+<!--    consommation-->
+
+        <record id="view_move_tree_edits" model="ir.ui.view">
+            <field name="name">stock.move.tree.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="priority">20</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_uom_qty']" position="after">
+                    <field name="quantity_done" sum ='Quantité totale'/>
+                </xpath>
+                <xpath expr="//field[@name='quantity_done']" position="after">
+                    <field name="qty_prod" sum ='Total-produit'/>
+                </xpath>
+                <xpath expr="//field[@name='qty_prod']" position="after">
+                    <field name="qty_prch" sum = 'Total-acheté'/>
+                </xpath>
+                <xpath expr="//field[@name='qty_prch']" position="after">
+                    <field name="qty_rebus" sum = 'Total-rebus'/>
+                </xpath>
+                <xpath expr="//field[@name='qty_rebus']" position="after">
+                    <field name="qty_imput" sum = "Total-imputation" />
+                </xpath>
+                <xpath expr="//field[@name='qty_imput']" position="after">
+                    <field name="qty_consom" sum = "Total-consommé" />
+                </xpath>
+                <xpath expr="//field[@name='qty_consom']" position="after">
+                    <field name="qty_retour"  sum = "Total-Imputation-Retour"/>
+                </xpath>
+                <xpath expr="//field[@name='qty_retour']" position="after">
+                    <field name="qty_sale" sum ='Total-vendu'/>
+                </xpath>
+                <xpath expr="//field[@name='qty_sale']" position="after">
+                    <field name="qty_consom_externe"  sum = "Total-consommation-externe"/>
+                </xpath>
+<!--                <xpath expr="//field[@name='qty_conso_ext']" position="after">-->
+<!--                    <field name="qty_conso_int"  sum = "somme Quantité consommée (int)"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='state']" position="after">-->
+<!--                    <field name="value" sum = 'Cout Total' string=" Coût" />-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="date" invisible = '1' />
+                </xpath>
+                <xpath expr="//field[@name='location_id']" position="replace">
+                    <field name="location_id" invisible = '1' />
+                </xpath>
+                <xpath expr="//field[@name='location_dest_id']" position="replace">
+                    <field name="location_dest_id" invisible = '1' />
+                </xpath>
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" invisible = '1' />
+                </xpath>
+                <xpath expr="//field[@name='product_uom_qty']" position="replace">
+                    <field name="product_uom_qty" invisible = '1' />
+                </xpath>
+                <xpath expr="//field[@name='picking_type_id']" position="replace">
+                    <field name="picking_type_id"  string="Type d'opération" />
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="stock_move_action_tableau" model="ir.actions.act_window">
+            <field name="name">Suivi</field>
+            <field name="res_model">stock.move</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_id" ref="stock.view_move_tree"/>
+            <field name="search_view_id" ref="stock.view_move_search"/>
+            <field name="context">{'search_default_done': 1, 'group_by':['product_id']}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                SUIVI
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_suivi"
+            name="Suivi"
+            action="stock_move_action_tableau"
+            parent="menu_tableau"
+            sequence="2"/>
+</odoo>

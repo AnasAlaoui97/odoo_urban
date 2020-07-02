@@ -18,7 +18,7 @@
         'report/urban_report_templates.xml',
         'report/urban_report.xml',
         'views/sale_FE_views.xml',
-        'views/product_codification.xml',
+        'views/urban_views.xml',
         'report/sale_FE_report_templates.xml',
         'report/sale_FE_report.xml',
     ],
