@@ -112,8 +112,12 @@
                     <field name="qty_sale" sum ='Total-vendu'/>
                 </xpath>
                 <xpath expr="//field[@name='qty_sale']" position="after">
-                    <field name="qty_consom_externe"  sum = "Total-consommation-externe"/>
+                    <field name="qty_consom_interne" widget="monetary" sum ='Total-consommation interne'/>
                 </xpath>
+                <xpath expr="//field[@name='qty_consom_interne']" position="after">
+                    <field name="qty_consom_ext" widget="monetary" sum ='Total-consommation externe'/>
+                </xpath>
+
 <!--                <xpath expr="//field[@name='qty_conso_ext']" position="after">-->
 <!--                    <field name="qty_conso_int"  sum = "somme Quantité consommée (int)"/>-->
 <!--                </xpath>-->

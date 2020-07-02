@@ -13,6 +13,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+
 # inherit product for code
 class ProductTemplate(models.Model):
     _inherit = "product.template"
@@ -26,7 +27,7 @@ class ProductTemplate(models.Model):
 class StockMove(models.Model):
     _inherit = "stock.move"
 
-    value = fields.Monetary('Value', compute='_compute_value', store=True)
+    value = fields.Monetary('Coût', compute='_compute_value', store=True)
     currency_id = fields.Many2one(related='product_id.currency_id')
 
     qty_sale = fields.Float('Q.vendue', compute='_compute_Qty_sale', store=True)
@@ -34,9 +35,12 @@ class StockMove(models.Model):
     qty_rebus = fields.Float('Q.En Rebus', compute='_compute_Qty_rebus', store=True)
     qty_imput = fields.Float('Imputation', compute='_compute_Qty_transit_prod', store=True)
     qty_retour = fields.Float('Retour.Imputation', compute='_compute_Qty_transit_stock', store=True)
-    qty_consom = fields.Float('C.interne', compute='_compute_Qty_consommee', store=True)
+    qty_consom = fields.Float('C.En production', compute='_compute_Qty_consommee', store=True)
     qty_prod = fields.Float('Q.produite', compute='_compute_Qty_prod', store=True)
-    qty_consom_externe = fields.Float('C.Externe', compute='_compute_Qty_consom_externe', store=True)
+    qty_consom_ext = fields.Float('C.Externe', compute='_compute_Qty_consom_ext', store=True)
+    qty_consom_interne = fields.Floatstandard('C.Interne', compute='_compute_Qty_consom_interne', store=True)
+
+
 
     @api.depends('product_id', 'currency_id')
     def _compute_value(self):
@@ -99,12 +103,16 @@ class StockMove(models.Model):
             else:
                 mv.qty_rebus = 0.0
 
-
-    # @api.depends('qty_rebus','qty_imput', 'qty_retour', 'qty_prch')
-    def _compute_Qty_consom_externe(self):
+    @api.depends('qty_rebus', 'qty_sale', 'qty_prod')
+    def _compute_Qty_consom_ext(self):
         for mv in self:
-            stock = float(self.env['stock.quant']._get_stock_prod)
-            mv.qty_consom_externe = ( mv.qty_rebus + mv.qty_imput ) - ( stock + mv.qty_retour )
+            mv.qty_consom_ext = ( mv.qty_rebus + mv.qty_sale ) * mv.product_id.standard_price
+
+    @api.depends('qty_rebus', 'qty_sale', 'qty_prod')
+    def _compute_Qty_consom_interne(self):
+        for mv in self:
+            mv.qty_consom_interne = mv.qty_consom * mv.product_id.standard_price
+
 
 
 
@@ -131,6 +139,3 @@ class StockQuant(models.Model):
             else:
                 mv.qty_stock_mz = 0.0
 
-    def _get_stock_prod(self):
-        for mv in self:
-            return mv.qty_stock_prod
