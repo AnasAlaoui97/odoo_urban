@@ -1,2 +1,2 @@
 # odoo_urban
-Développement de la plateforme odoo pour URBAN Electronics
+Développement spécifique de l'ERP odoo pour URBAN Electronics
