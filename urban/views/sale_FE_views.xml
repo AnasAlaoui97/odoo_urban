@@ -24,11 +24,12 @@
             <field name="arch" type="xml">
               <form string="Gestion des fiches d'exécution" class="o_sale_order">
                 <header>
-                    <button name="action_open" string="Valider la fiche d'exécution" type="object" states="draft" class="oe_highlight"/>
-                    <button name="action_ok" string="Marquer comme traitée" type="object" states="ok" class="oe_highlight" groups="urban.group_urban_prod"/>
-                    <button name="action_print" string="Imprimer" type="object" states="ok,done" class="oe_highlight"/>
+                    <button name="action_open" string="Valider la fiche d'exécution" type="object" states="draft" class="oe_highlight" groups="urban.group_urban_ventes"/>
+                    <button name="action_ok" string="Visa directeur" type="object" states="inprogress" class="oe_highlight" groups="urban.group_urban_directeur"/>
+                    <button name="action_done" string="Marquer comme traitée" type="object" states="ok" class="oe_highlight" groups="urban.group_urban_prod"/>
+                    <button name="action_print" string="Imprimer" type="object" states="inprogress,ok,done" class="oe_highlight"/>
 
-                    <field name="state" widget="statusbar" statusbar_visible="draft,ok,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,inprogress,ok,done"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">

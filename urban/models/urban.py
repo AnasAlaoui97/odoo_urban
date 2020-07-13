@@ -38,7 +38,7 @@ class StockMove(models.Model):
     qty_consom = fields.Float('C.En production', compute='_compute_Qty_consommee', store=True)
     qty_prod = fields.Float('Q.produite', compute='_compute_Qty_prod', store=True)
     qty_consom_ext = fields.Float('C.Externe', compute='_compute_Qty_consom_ext', store=True)
-    qty_consom_interne = fields.Floatstandard('C.Interne', compute='_compute_Qty_consom_interne', store=True)
+    qty_consom_interne = fields.Float('C.Interne', compute='_compute_Qty_consom_interne', store=True)
 
 
 

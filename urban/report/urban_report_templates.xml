@@ -6,7 +6,7 @@
         <div class="page">
             <div class="oe_structure"/>
             <h2 class="text-center">
-                <strong>Fiche d'exécution _ </strong>
+                <strong>Demande d'achat _ </strong>
                 <span t-field="doc.name"/>
             </h2>
             <p class="text-center">__________________________________________________________</p>

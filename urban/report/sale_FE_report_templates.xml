@@ -47,7 +47,7 @@
                 <tbody class="FE_tbody">
                     <tr t-foreach="doc.fiche_line_ids" t-as="line">
                         <td name="td_prix">
-                            <span t-field="line.product_id"/>
+                            <span t-field="line.n_prix"/>
                         </td>
                         <td name="td_product_code_id">
                             <span t-field="line.product_code.default_code"/>

@@ -47,6 +47,7 @@ class FE(models.Model):
     mo_count = fields.Integer(string="Ordres de fabrications", compute='mo_count_fe')
     state = fields.Selection([
         ('draft', 'Brouillon'),
+        ('inprogress', 'En cours de traitement'),
         ('ok', "Fiche d'exécution"),
         ('done', "Fiche d'exécution traitée")
     ], string='Etat', readonly=True, copy=False, index=True, tracking=3, default='draft')
@@ -69,9 +70,12 @@ class FE(models.Model):
 
     def action_open(self):
         a = self.env['ir.sequence'].next_by_code('urban.fiche') or _('0001')
-        self.write({'state': 'ok', 'name': a})
+        self.write({'state': 'inprogress', 'name': a})
 
     def action_ok(self):
+        self.write({'state': 'ok'})
+
+    def action_done(self):
         self.write({'state': 'done'})
 
     def action_print(self):
